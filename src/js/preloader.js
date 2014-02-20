@@ -18,7 +18,8 @@
       this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
       this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
       this.load.image('bullet', 'assets/bullet.png');
-      //this.load.image('starfield', 'assets/games/invaders/starfield.png');
+      this.load.image('starfield', 'assets/starfield.png');
+      this.load.image('enemmy', 'assets/enemmy.png');
     },
 
     create: function () {
