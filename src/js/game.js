@@ -18,13 +18,14 @@
       var x = this.game.width / 2
         , y = this.game.height-50;
 
+      //Crea fondo del juego
       this.starfield = this.add.tileSprite(0, 0, 640, 960, 'starfield');
       
       this.input.onDown.add(this.onInputDown, this);
 
-      //  Our bullet group
+    //  Our bullet group
     this.bullets = this.game.add.group();
-
+    //Bucle que crea el grupo de balas
     for (var i = 0; i < 10; i++)
     {
         var b = this.bullets.create(0, 0, 'bullet');
@@ -34,9 +35,11 @@
         b.events.onOutOfBounds.add(this.resetBullet, this);
     }
 
+    //Crea "player"
     this.player = this.add.sprite(x, y, 'player');
       this.player.anchor.setTo(0.5, 0.75);
 
+    //Crea "enemmy"
     this.enemmy = this.add.sprite(this.game.width/2, this.game.height/2 - 200, 'enemmy');
     this.enemmy.body.velocity.x = -200;
     this.enemmy.body.velocity.y = +100;
@@ -45,15 +48,18 @@
 
     },
 
+
     update: function () {
+      //Hace que el fondo se desplace verticalmente
       this.starfield.tilePosition.y += 2;
 
+      //Controles y movimiento de la nave
       var x, y, cx, cy, angle, scale;
 
       x = this.input.position.x;
       y = this.input.position.y;
       var keypressed = false;
-
+      //Control: tecla izquierda
       if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT))
       {
         if(this.player.x>20)
@@ -65,6 +71,7 @@
           }
         }
       }
+      //Control: tecla derecha
       if(this.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
       {
         if(this.player.x<620)
@@ -77,6 +84,7 @@
         }
       }
 
+      //restablece el angulo de la nave cuando no pulsas ninguna
       if (!keypressed && this.player.angle < 0) {
             this.player.angle += 2;
       } else if (!keypressed && this.player.angle > 0) {
