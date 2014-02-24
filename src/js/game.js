@@ -44,6 +44,8 @@
 
     //Crea "enemmy"
     this.enemmy = this.add.sprite(this.game.width/2, this.game.height/2 - 200, 'enemmy');
+    this.enemmy.animations.add('fly');
+    this.enemmy.animations.play('fly', 24, true);
     this.enemmy.body.velocity.x = -200;
     this.enemmy.body.velocity.y = +100;
     this.enemmy.anchor.setTo(0.5, 0.75);
@@ -120,12 +122,12 @@
         {
             this.bullet.reset(this.player.x, this.player.y -80);
             this.bullet.body.velocity.y = -1000;
-            this.bulletTime = this.game.time.now + 250;
+            this.bulletTime = this.game.time.now + 200;
             this.bulletCounter++;
         }
     }
     else if (this.game.time.now > this.bulletTime && (this.bulletCounter % 3) == 2) {
-      this.bulletTime = this.game.time.now + 400;
+      this.bulletTime = this.game.time.now + 320;
       this.bulletCounter++;  
     }
 
