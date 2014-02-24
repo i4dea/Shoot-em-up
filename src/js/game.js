@@ -63,6 +63,7 @@
 
       x = this.input.position.x;
       y = this.input.position.y;
+      /*
       var keypressed = false;
       //Control: tecla izquierda
       if(this.input.keyboard.isDown(Phaser.Keyboard.LEFT))
@@ -94,6 +95,15 @@
             this.player.angle += 2;
       } else if (!keypressed && this.player.angle > 0) {
             this.player.angle -= 2;
+      }*/
+
+      //mover nave segun posicion del cursor
+      this.player.x = this.game.input.x;
+      if (this.player.x <= this.player.width/2 ) {
+        this.player.x = this.player.width/2;
+      }
+      if (this.player.x >= this.game.width-this.player.width/2 ) {
+        this.player.x = this.game.width-this.player.width/2;
       }
       
       //enemmy
