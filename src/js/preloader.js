@@ -9,7 +9,7 @@
   Preloader.prototype = {
 
     preload: function () {
-      this.asset = this.add.sprite(320, 240, 'preloader');
+      this.asset = this.add.sprite(640, 960, 'preloader');
       this.asset.anchor.setTo(0.5, 0.5);
 
       this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
@@ -18,7 +18,7 @@
       this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
       this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
       this.load.image('bullet', 'assets/bullet-blue.PNG');
-      this.load.image('starfield', 'assets/fondo-1-grande.PNG');
+      this.load.image('starfield', 'assets/fondo-todo-grande.PNG');
       this.load.spritesheet("enemmy", "assets/enemmy-red-24.PNG", 80, 80);
     },
 

@@ -55,6 +55,8 @@
     for (var i = 0; i < 20; i++)
     {
         var b = this.enemmies.create(0, 0, 'enemmy');
+        //b.player.animations.add('fly');
+        //b.player.animations.play('fly', 24, true);
         b.name = 'enemmy' + i;
         b.exists = false;
         b.visible = false;
@@ -67,7 +69,7 @@
 
     update: function () {
       //Hace que el fondo se desplace verticalmente
-      //this.starfield.tilePosition.y += 2;
+      this.starfield.tilePosition.y += 2;
 
       //Controles y movimiento de la nave
       var x, y, cx, cy, angle, scale;
