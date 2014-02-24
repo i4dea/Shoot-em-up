@@ -10,6 +10,8 @@
     this.bulletCounter = 0;
     this.starfield=null;
     this.enemmy = null;
+    this.enemmies = null;
+    this.enemmyTime = 0;
   }
 
   Game.prototype = {
@@ -43,13 +45,22 @@
     this.player.anchor.setTo(0.5, 0.5);
 
     //Crea "enemmy"
-    this.enemmy = this.add.sprite(this.game.width/2, this.game.height/2 - 200, 'enemmy');
-    this.enemmy.animations.add('fly');
-    this.enemmy.animations.play('fly', 24, true);
-    this.enemmy.body.velocity.x = -200;
+    /*this.enemmy.body.velocity.x = -200;
     this.enemmy.body.velocity.y = +100;
     this.enemmy.anchor.setTo(0.5, 0.75);
-    this.enemmy.name = 'enemmy';
+    this.enemmy.name = 'enemmy';*/
+
+    this.enemmies = this.game.add.group();
+    //Bucle que crea el grupo de enemigos
+    for (var i = 0; i < 10; i++)
+    {
+        var b = this.enemmies.create(0, 0, 'enemmy');
+        b.name = 'enemmy' + i;
+        b.exists = false;
+        b.visible = false;
+        b.anchor.setTo(0.5, 0.5);
+        //b.events.onOutOfBounds.add(this.resetBullet, this);
+    }
 
     },
 
@@ -107,13 +118,15 @@
       }
       
       //enemmy
-      if (this.enemmy.x < 200) {
+      /*if (this.enemmy.x <= this.enemmy.width/2) {
           this.enemmy.body.velocity.x = 200;
       }
 
-      else if (this.enemmy.x > 440) {
+      else if (this.enemmy.x >= this.game.width-this.enemmy.width/2 ) {
         this.enemmy.body.velocity.x = -200;
-      }
+      }*/
+
+      this.generateEnemmy();
 
       this.fireBullet();
       
@@ -147,6 +160,21 @@
 resetBullet : function (bullet) {
     bullet.kill();
 },  
+
+generateEnemmy : function() {
+
+    if (this.game.time.now > this.enemmyTime )
+    {
+      this.enemmy = this.enemmies.getFirstExists(false);
+        if (this.enemmy)
+        {
+            this.enemmy.reset(this.game.width * Math.random(), -this.enemmy.height);
+            this.enemmy.body.velocity.y = +200;
+            this.enemmyTime = this.game.time.now + 800;
+        }
+    }
+
+  },
 
 
     onInputDown: function (bullet) {
