@@ -132,6 +132,7 @@
       
       //collision
       this.game.physics.overlap(this.enemmies, this.bullets, this.resetBullet, null, this);
+      this.game.physics.overlap(this.enemmies, this.player, this.resetGame, null, this);
     },
     
 
@@ -170,7 +171,7 @@ generateEnemmy : function() {
         {
             this.enemmy.reset(this.game.width * Math.random(), -this.enemmy.height);
             this.enemmy.body.velocity.y = +200;
-            this.enemmyTime = this.game.time.now + 300;
+            this.enemmyTime = this.game.time.now + 500;
         }
     }
 
@@ -180,6 +181,9 @@ generateEnemmy : function() {
     enemmy.kill();
 }, 
 
+  resetGame: function () {
+      this.game.state.start('menu');
+    },
 
     onInputDown: function (bullet) {
       this.game.state.start('menu');
