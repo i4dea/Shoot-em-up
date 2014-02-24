@@ -38,7 +38,9 @@
 
     //Crea "player"
     this.player = this.add.sprite(x, y, 'player');
-      this.player.anchor.setTo(0.5, 0.75);
+    this.player.animations.add('fly');
+    this.player.animations.play('fly', 24, true);
+    this.player.anchor.setTo(0.5, 0.5);
 
     //Crea "enemmy"
     this.enemmy = this.add.sprite(this.game.width/2, this.game.height/2 - 200, 'enemmy');
@@ -67,7 +69,7 @@
         {
           keypressed = true;
           this.player.x=this.player.x-6;
-          if (this.player.angle > -7) {
+          if (this.player.angle > -15) {
             this.player.angle -= 2;
           }
         }
@@ -79,7 +81,7 @@
         {
           keypressed = true;
           this.player.x=this.player.x+6;
-          if (this.player.angle < 7) {
+          if (this.player.angle < 15) {
             this.player.angle += 2;
           }
         }
