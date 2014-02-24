@@ -32,6 +32,7 @@
         b.name = 'bullet' + i;
         b.exists = false;
         b.visible = false;
+        b.anchor.setTo(0.5, 0.5);
         b.events.onOutOfBounds.add(this.resetBullet, this);
     }
 
@@ -51,7 +52,7 @@
 
     update: function () {
       //Hace que el fondo se desplace verticalmente
-      this.starfield.tilePosition.y += 2;
+      //this.starfield.tilePosition.y += 2;
 
       //Controles y movimiento de la nave
       var x, y, cx, cy, angle, scale;
@@ -115,8 +116,8 @@
 
         if (this.bullet)
         {
-            this.bullet.reset(this.player.x-7, this.player.y -80);
-            this.bullet.body.velocity.y = -600;
+            this.bullet.reset(this.player.x, this.player.y -80);
+            this.bullet.body.velocity.y = -1000;
             this.bulletTime = this.game.time.now + 250;
             this.bulletCounter++;
         }

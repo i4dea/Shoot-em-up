@@ -17,8 +17,8 @@
       this.load.image('player', 'assets/player.png');
       this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
       this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
-      this.load.image('bullet', 'assets/bullet.png');
-      this.load.image('starfield', 'assets/starfield.png');
+      this.load.image('bullet', 'assets/bullet-blue.PNG');
+      this.load.image('starfield', 'assets/fondo-1-grande.PNG');
       this.load.image('enemmy', 'assets/enemmy.png');
     },
 
