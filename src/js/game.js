@@ -52,14 +52,14 @@
 
     this.enemmies = this.game.add.group();
     //Bucle que crea el grupo de enemigos
-    for (var i = 0; i < 10; i++)
+    for (var i = 0; i < 20; i++)
     {
         var b = this.enemmies.create(0, 0, 'enemmy');
         b.name = 'enemmy' + i;
         b.exists = false;
         b.visible = false;
         b.anchor.setTo(0.5, 0.5);
-        //b.events.onOutOfBounds.add(this.resetBullet, this);
+        b.events.onOutOfBounds.add(this.resetEnemmy, this);
     }
 
     },
@@ -131,7 +131,7 @@
       this.fireBullet();
       
       //collision
-      this.game.physics.overlap(this.enemmy, this.bullets, this.resetBullet, null, this);
+      this.game.physics.overlap(this.enemmies, this.bullets, this.resetBullet, null, this);
     },
     
 
@@ -170,11 +170,15 @@ generateEnemmy : function() {
         {
             this.enemmy.reset(this.game.width * Math.random(), -this.enemmy.height);
             this.enemmy.body.velocity.y = +200;
-            this.enemmyTime = this.game.time.now + 800;
+            this.enemmyTime = this.game.time.now + 300;
         }
     }
 
   },
+
+  resetEnemmy : function (enemmy) {
+    enemmy.kill();
+}, 
 
 
     onInputDown: function (bullet) {
