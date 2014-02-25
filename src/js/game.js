@@ -50,11 +50,9 @@
 
     this.enemmies = this.game.add.group();
     //Bucle que crea el grupo de enemigos
-    for (var i = 0; i < 20; i++)
+    for (var i = 0; i < 30; i++)
     {
-        var b = this.enemmies.create(0, 0, 'enemmy');
-        //b.player.animations.add('fly');
-        //b.player.animations.play('fly', 24, true);
+        var b = this.enemmies.create(0, 0, 'enemmy', 24, true);
         b.name = 'enemmy' + i;
         b.exists = false;
         b.visible = false;
@@ -170,8 +168,10 @@ generateEnemmy : function() {
         if (this.enemmy)
         {
             this.enemmy.reset(this.game.width * Math.random(), -this.enemmy.height);
+            this.enemmy.animations.add('fly');
+            this.enemmy.animations.play('fly', 24, true);
             this.enemmy.body.velocity.y = +200;
-            this.enemmyTime = this.game.time.now + 500;
+            this.enemmyTime = this.game.time.now + 400;
         }
     }
 
