@@ -19,6 +19,7 @@
       this.load.spritesheet('button', 'assets/button_sprite_sheet.png', 193, 71);
       this.load.image('bullet', 'assets/bullet-blue.PNG');
       this.load.image('starfield', 'assets/fondo-todo-grande.PNG');
+      this.load.image('particle', 'assets/particle-blue.PNG');
       this.load.spritesheet("enemmy", "assets/enemmy-red-24.PNG", 80, 80);
     },
 

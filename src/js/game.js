@@ -12,6 +12,7 @@
     this.enemmy = null;
     this.enemmies = null;
     this.enemmyTime = 0;
+    this.playerEmitter = null;
   }
 
   Game.prototype = {
@@ -22,6 +23,17 @@
       this.starfield = this.add.tileSprite(0, 0, 640, 960, 'starfield');
       
       this.input.onDown.add(this.onInputDown, this);
+
+      //generador de particulas, cola de la nave
+      this.playerEmitter = this.game.add.emitter(this.game.width / 2, this.game.height-this.game.height/10, 500);
+      this.playerEmitter.makeParticles('particle');
+      this.playerEmitter.minParticleSpeed.setTo(-300, 1500);
+      this.playerEmitter.maxParticleSpeed.setTo(300, 400);
+      this.playerEmitter.maxParticleScale = 1;
+      this.playerEmitter.minParticleScale = 0.1;
+      this.playerEmitter.gravity = 0;
+      this.playerEmitter.start(false, 500, 2);
+
 
     //  Our bullet group
     this.bullets = this.game.add.group();
@@ -114,6 +126,7 @@
       if (this.player.x >= this.game.width-this.player.width/2 ) {
         this.player.x = this.game.width-this.player.width/2;
       }
+      this.playerEmitter.x = this.player.x;
       
       //enemmy
       /*if (this.enemmy.x <= this.enemmy.width/2) {
