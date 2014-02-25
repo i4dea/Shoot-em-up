@@ -19,6 +19,14 @@
 
     create: function () {
 
+      this.music = this.game.add.audio('musicLoop');
+      this.music.play();
+
+      this.tryAgainVoice = this.game.add.audio('tryAgain');
+
+      this.laser1sound = this.game.add.audio('laser1');
+
+
       //Crea fondo del juego
       this.starfield = this.add.tileSprite(0, 0, 640, 960, 'starfield');
       
@@ -159,6 +167,7 @@
             this.bullet.body.velocity.y = -1000;
             this.bulletTime = this.game.time.now + 200;
             this.bulletCounter++;
+            this.laser1sound.play();
         }
     }
     else if (this.game.time.now > this.bulletTime && (this.bulletCounter % 3) == 2) {
@@ -195,11 +204,15 @@ generateEnemmy : function() {
 }, 
 
   resetGame: function () {
+      this.tryAgainVoice.play();
       this.game.state.start('menu');
+      this.music.pause();
     },
 
     onInputDown: function (bullet) {
+      this.tryAgainVoice.play();
       this.game.state.start('menu');
+      this.music.pause();
     }
 
   };

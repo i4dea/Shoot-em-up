@@ -21,6 +21,10 @@
       this.load.image('starfield', 'assets/fondo-todo-grande.PNG');
       this.load.image('particle', 'assets/particle-blue.PNG');
       this.load.spritesheet("enemmy", "assets/enemmy-red-24.PNG", 80, 80);
+      this.load.audio('musicLoop', 'assets/musicLoop.mp3');
+      this.load.audio('tryAgain', 'assets/voice_tryagain.mp3');
+      this.load.audio('laser1', 'assets/laser1.mp3');
+
     },
 
     create: function () {
