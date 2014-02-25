@@ -17,8 +17,6 @@
   Game.prototype = {
 
     create: function () {
-      var x = this.game.width / 2
-        , y = this.game.height-50;
 
       //Crea fondo del juego
       this.starfield = this.add.tileSprite(0, 0, 640, 960, 'starfield');
@@ -39,7 +37,7 @@
     }
 
     //Crea "player"
-    this.player = this.add.sprite(x, y, 'player');
+    this.player = this.add.sprite(this.game.width / 2, this.game.height-this.game.height/10, 'player');
     this.player.animations.add('fly');
     this.player.animations.play('fly', 24, true);
     this.player.anchor.setTo(0.5, 0.5);
@@ -69,7 +67,7 @@
 
     update: function () {
       //Hace que el fondo se desplace verticalmente
-      this.starfield.tilePosition.y += 2;
+      this.starfield.tilePosition.y += 1;
 
       //Controles y movimiento de la nave
       var x, y, cx, cy, angle, scale;
