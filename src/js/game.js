@@ -157,11 +157,23 @@
      createpwp: function() {
 
     var pwp;
-
+    var randNumber = Math.random();
     // Of course, the pwps created will belong to their respective groups
-    if (Math.random() > 0.5)
+    if (randNumber < 0.33)
     {
-        pwp = this.powerupgreen.create(360 + Math.random() * 200, 0, 'pwpgreen');
+        pwp = this.powerupgreen.create(360 + Math.random() * 200, 0, 'pwpblue');
+        pwp.name = 'pwpblue';
+        pwp.animations.add('fly');
+        pwp.animations.play('fly', 24, true);
+        pwp.body.velocity.y = +300;
+        pwp.anchor.setTo(0.5, 0.5);
+        pwp.events.onOutOfBounds.add(function (pwp) {
+        pwp.kill();
+      }, this);
+    }
+    else if (randNumber > 0.67)
+    {
+        pwp = this.powerupblue.create(360 + Math.random() * 200, 0, 'pwpgreen');
         pwp.name = 'pwpgreen';
         pwp.animations.add('fly');
         pwp.animations.play('fly', 24, true);
@@ -173,8 +185,8 @@
     }
     else
     {
-        pwp = this.powerupblue.create(360 + Math.random() * 200, 0, 'pwpblue');
-        pwp.name = 'pwpblue';
+        pwp = this.powerupblue.create(360 + Math.random() * 200, 0, 'pwporange');
+        pwp.name = 'pwporange';
         pwp.animations.add('fly');
         pwp.animations.play('fly', 24, true);
         pwp.body.velocity.y = +300;
@@ -302,14 +314,17 @@
         if(powerup.name=='pwpblue')
         {
           this.typebullet=1;
+          console.log(this.typebullet);
         }
         else if(powerup.name=='pwpgreen')
         {
           this.typebullet=2;
+          console.log(this.typebullet);
         }
         else if(powerup.name=='pwporange')
         {
           this.typebullet=3;
+          console.log(this.typebullet);
         }
         powerup.kill();
         bullet.kill();
@@ -345,13 +360,23 @@
     {
         if (this.game.time.now > this.bulletTime )
         {
+            //bala izquierda
             this.bullet = this.bullets.getFirstExists(false);
-
             if (this.bullet)
             {
-                this.bullet.reset(this.player.x, this.player.y -80);
+                this.bullet.reset(this.player.x-this.player.width/2.5, this.player.y -30);
                 this.bullet.body.velocity.y = -1000;
-                this.bulletTime = this.game.time.now + 100;
+                this.bulletTime = this.game.time.now + 150;
+                this.bulletCounter++;
+                this.laser1sound.play();
+            }
+            //bala derecha
+            this.bullet = this.bullets.getFirstExists(false);
+            if (this.bullet)
+            {
+                this.bullet.reset(this.player.x+this.player.width/2.5, this.player.y -30);
+                this.bullet.body.velocity.y = -1000;
+                this.bulletTime = this.game.time.now + 150;
                 this.bulletCounter++;
                 this.laser1sound.play();
             }
@@ -363,12 +388,31 @@
         if (this.game.time.now > this.bulletTime )
         {
             this.bullet = this.bullets.getFirstExists(false);
-
             if (this.bullet)
             {
-                this.bullet.reset(this.player.x, this.player.y -80);
+                this.bullet.reset(this.player.x, this.player.y -30);
                 this.bullet.body.velocity.y = -1000;
-                this.bulletTime = this.game.time.now + 100;
+                this.bulletTime = this.game.time.now + 150;
+                this.bulletCounter++;
+                this.laser1sound.play();
+            }
+            this.bullet = this.bullets.getFirstExists(false);
+            if (this.bullet)
+            {
+                this.bullet.reset(this.player.x, this.player.y -30);
+                this.bullet.body.velocity.y = -1000;
+                this.bullet.body.velocity.x = -150;
+                this.bulletTime = this.game.time.now + 150;
+                this.bulletCounter++;
+                this.laser1sound.play();
+            }
+            this.bullet = this.bullets.getFirstExists(false);
+            if (this.bullet)
+            {
+                this.bullet.reset(this.player.x, this.player.y -30);
+                this.bullet.body.velocity.y = -1000;
+                this.bullet.body.velocity.x = 150;
+                this.bulletTime = this.game.time.now + 150;
                 this.bulletCounter++;
                 this.laser1sound.play();
             }
