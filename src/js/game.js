@@ -9,18 +9,39 @@
     this.bulletTime = 0;
     this.bulletCounter = 0;
     this.starfield=null;
-    this.enemmy = null;
-    this.enemmies = null;
-    this.enemmyTime = 0;
+    this.enemy = null;
+    this.enemies = null;
+    this.enemyTime = 0;
     this.playerEmitter = null;
+    this.score = 0;
+    this.scoreString = '';
+    this.explosion = null;
+    this.explosions;
+    this.nEnemies=1;
+
+
+
+
+    this.powerups=null;
+    this.powerupblue=null;
+    this.powerupgreen=null;
+    this.poweruporange=null;
+
+    this.enemyred=null;
+    this.enemygreen=null;
+    this.enemyyellow=null;
+    this.enemyblue=null;
+
+    this.lastTime = 0;
+    this.typebullet = 3;
   }
 
   Game.prototype = {
 
     create: function () {
 
-      this.music = this.game.add.audio('musicLoop');
-      this.music.play();
+      this.music = this.game.add.audio('musicLoop', 1, true);
+      this.music.play('', 0, 1, true);
 
       this.tryAgainVoice = this.game.add.audio('tryAgain');
 
@@ -42,19 +63,16 @@
       this.playerEmitter.gravity = 0;
       this.playerEmitter.start(false, 500, 2);
 
+      this.scoreString = 'Score : ';
+      this.scoreText = this.game.add.text(10, 10, this.scoreString + this.score, { fontSize: '34px', fill: '#fff' });
 
     //  Our bullet group
     this.bullets = this.game.add.group();
     //Bucle que crea el grupo de balas
-    for (var i = 0; i < 10; i++)
-    {
-        var b = this.bullets.create(0, 0, 'bullet');
-        b.name = 'bullet' + i;
-        b.exists = false;
-        b.visible = false;
-        b.anchor.setTo(0.5, 0.5);
-        b.events.onOutOfBounds.add(this.resetBullet, this);
-    }
+    
+
+
+
 
     //Crea "player"
     this.player = this.add.sprite(this.game.width / 2, this.game.height-this.game.height/10, 'player');
@@ -62,25 +80,123 @@
     this.player.animations.play('fly', 24, true);
     this.player.anchor.setTo(0.5, 0.5);
 
-    //Crea "enemmy"
-    /*this.enemmy.body.velocity.x = -200;
-    this.enemmy.body.velocity.y = +100;
-    this.enemmy.anchor.setTo(0.5, 0.75);
-    this.enemmy.name = 'enemmy';*/
+    //POWERUPS
+    this.powerups = this.game.add.group();
 
-    this.enemmies = this.game.add.group();
+    this.poweruporange = this.game.add.group();
+    this.powerupblue = this.game.add.group();
+    this.powerupgreen = this.game.add.group();
+
+    this.powerups.add(this.powerupgreen._container);
+    this.powerups.add(this.powerupblue._container);
+    this.powerups.add(this.poweruporange._container);
+
+    //ENEMIES
+    this.enemies = this.game.add.group();
+
+    this.enemyred= this.game.add.group();
+    this.enemygreen= this.game.add.group();
+    this.enemyyellow= this.game.add.group();
+    this.enemyblue= this.game.add.group();
+
+    this.enemies.add(this.enemyred._container);
+    this.enemies.add(this.enemygreen._container);
+    this.enemies.add(this.enemyyellow._container);
+    this.enemies.add(this.enemyblue._container);
+    //this.game.add(createpwp, this)
+
+    //this.game.add(createpwp, this);
+
+    //Crea "enemy"
+    /*this.enemy.body.velocity.x = -200;
+    this.enemy.body.velocity.y = +100;
+    this.enemy.anchor.setTo(0.5, 0.75);
+    this.enemy.name = 'enemy';*/
+
+        //  An explosion pool
+    this.explosions = this.game.add.group();
+    this.explosions.createMultiple(this.nEnemies, 'kaboom');
+    this.explosions.forEach(function (enemy) {
+      enemy.anchor.x = 0.5;
+      enemy.anchor.y = 0.5;
+      enemy.animations.add('kaboom'); 
+      }, this);
+
+
+      
     //Bucle que crea el grupo de enemigos
-    for (var i = 0; i < 30; i++)
+    for (var i = 0; i < this.nEnemies; i++)
     {
-        var b = this.enemmies.create(0, 0, 'enemmy', 24, true);
-        b.name = 'enemmy' + i;
+        var b = this.enemyred.create(0, 0, 'enemyred', 24, true);
+        b.name = 'enemyred' + i;
         b.exists = false;
         b.visible = false;
         b.anchor.setTo(0.5, 0.5);
-        b.events.onOutOfBounds.add(this.resetEnemmy, this);
+        b.events.onOutOfBounds.add(function (enemy) {
+        enemy.kill();
+      }, this);
     }
 
     },
+
+    resetenemy: function() {
+      enemy.kill();
+    },
+
+    
+
+     createpwp: function() {
+
+    var pwp;
+
+    // Of course, the pwps created will belong to their respective groups
+    if (Math.random() > 0.5)
+    {
+        pwp = this.powerupgreen.create(360 + Math.random() * 200, 0, 'pwpgreen');
+        pwp.name = 'pwpgreen';
+        pwp.animations.add('fly');
+        pwp.animations.play('fly', 24, true);
+        pwp.body.velocity.y = +300;
+        pwp.anchor.setTo(0.5, 0.5);
+    }
+    else
+    {
+        pwp = this.powerupblue.create(360 + Math.random() * 200, 0, 'pwpblue');
+        pwp.name = 'pwpblue';
+        pwp.animations.add('fly');
+        pwp.animations.play('fly', 24, true);
+        pwp.body.velocity.y = +300;
+        pwp.anchor.setTo(0.5, 0.5);
+    }
+    
+},
+
+    createBullets: function(bullet, typebullet) {
+      for (var i = 0; i < 10; i++)
+        {
+          if(typebullet==1)
+            {
+                var b = this.bullets.create(0, 0, 'bulletblue');
+                b.name = 'bulletblue' + i;
+            }
+          if(typebullet==2)
+            {
+              var b = this.bullets.create(0, 0, 'bulletgreen');
+              b.name = 'bulletgreen' + i;
+            }
+          if(typebullet==3)
+            {
+              var b = this.bullets.create(0, 0, 'bulletorange');
+              b.name = 'bulletorange' + i;
+            }
+            b.exists = false;
+            b.visible = false;
+            b.anchor.setTo(0.5, 0.5);
+            b.events.onOutOfBounds.add(this.resetBullet, this);
+        }
+    },
+    
+
 
 
     update: function () {
@@ -92,6 +208,14 @@
 
       x = this.input.position.x;
       y = this.input.position.y;
+
+      this.createBullets(this.bullet,this.typebullet);
+
+      /*if (this.game.time.now > this.lastTime) {
+        var v = this.enemyred.create(Math.random()*400, 0, 'enemyred', 24, true);
+        this.lastTime = this.game.time.now + 3000
+      }*/
+
       /*
       var keypressed = false;
       //Control: tecla izquierda
@@ -136,78 +260,110 @@
       }
       this.playerEmitter.x = this.player.x;
       
-      //enemmy
-      /*if (this.enemmy.x <= this.enemmy.width/2) {
-          this.enemmy.body.velocity.x = 200;
+      //enemy
+      /*if (this.enemy.x <= this.enemy.width/2) {
+          this.enemy.body.velocity.x = 200;
       }
 
-      else if (this.enemmy.x >= this.game.width-this.enemmy.width/2 ) {
-        this.enemmy.body.velocity.x = -200;
+      else if (this.enemy.x >= this.game.width-this.enemy.width/2 ) {
+        this.enemy.body.velocity.x = -200;
       }*/
 
-      this.generateEnemmy();
+      this.generateenemy();
 
       this.fireBullet();
-      
       //collision
-      this.game.physics.overlap(this.enemmies, this.bullets, this.resetBullet, null, this);
-      this.game.physics.overlap(this.enemmies, this.player, this.resetGame, null, this);
+      this.game.physics.overlap(this.enemies, this.bullets, function (enemy, bullet) {
+        enemy.kill();
+        bullet.kill();
+        this.score += 5;
+        this.scoreText.content = this.scoreString + this.score;
+        this.explosion = this.explosions.getFirstDead();
+        this.explosion.reset(enemy.body.x, enemy.body.y);
+        this.explosion.play('kaboom', 11, false, true);
+      } , null, this);
+
+      this.game.physics.overlap(this.powerups, this.bullets, function (powerup, bullet) {
+        if(powerup.name=='pwpblue')
+        {
+          this.typebullet=1;
+        }
+        else if(powerup.name=='pwpgreen')
+        {
+          this.typebullet=2;
+        }
+        else if(powerup.name=='pwporange')
+        {
+          this.typebullet=3;
+        }
+        powerup.kill();
+        bullet.kill();
+      } , null, this);
+      //this.game.physics.overlap(this.enemies, this.player, this.resetGame, null, this);
     },
     
 
   fireBullet : function() {
-
-    if (this.game.time.now > this.bulletTime && (this.bulletCounter % 3) != 2)
+    if(this.typebullet =1)
     {
-        this.bullet = this.bullets.getFirstExists(false);
-
-        if (this.bullet)
+        if (this.game.time.now > this.bulletTime && (this.bulletCounter % 3) != 2)
         {
-            this.bullet.reset(this.player.x, this.player.y -80);
-            this.bullet.body.velocity.y = -1000;
-            this.bulletTime = this.game.time.now + 200;
-            this.bulletCounter++;
-            this.laser1sound.play();
+            this.bullet = this.bullets.getFirstExists(false);
+
+            if (this.bullet)
+            {
+                this.bullet.reset(this.player.x, this.player.y -80);
+                this.bullet.body.velocity.y = -1000;
+                this.bulletTime = this.game.time.now + 200;
+                this.bulletCounter++;
+                this.laser1sound.play();
+            }
+        }
+        else if (this.game.time.now > this.bulletTime && (this.bulletCounter % 3) == 2) {
+          this.bulletTime = this.game.time.now + 320;
+          this.bulletCounter++;  
         }
     }
-    else if (this.game.time.now > this.bulletTime && (this.bulletCounter % 3) == 2) {
-      this.bulletTime = this.game.time.now + 320;
-      this.bulletCounter++;  
-    }
+    
 
   },
+  /*setupInvader: function (enemy) {
+      this.enemy.anchor.x = 0.5;
+      this.enemy.anchor.y = 0.5;
+      this.enemy.animations.add('kaboom');
+    },*/
 
 //  Called if the bullet goes out of the screen
 resetBullet : function (bullet) {
     bullet.kill();
 },  
 
-generateEnemmy : function() {
+generateenemy : function() {
 
-    if (this.game.time.now > this.enemmyTime )
+    if (this.game.time.now > this.enemyTime )
     {
-      this.enemmy = this.enemmies.getFirstExists(false);
-        if (this.enemmy)
+      this.enemy = this.enemies.getFirstExists(false);
+        if (this.enemy)
         {
-            this.enemmy.reset(this.game.width * Math.random(), -this.enemmy.height);
-            this.enemmy.animations.add('fly');
-            this.enemmy.animations.play('fly', 24, true);
-            this.enemmy.body.velocity.y = +200;
-            this.enemmyTime = this.game.time.now + 400;
+            this.createpwp();
+            this.enemy.reset(this.game.width * Math.random(), -this.enemy.height);
+            this.enemy.animations.add('fly');
+            this.enemy.animations.play('fly', 24, true);
+            this.enemy.body.velocity.y = +300;
+            this.enemyTime = this.game.time.now + 400;
         }
     }
 
   },
 
-  resetEnemmy : function (enemmy) {
-    enemmy.kill();
-}, 
 
   resetGame: function () {
       this.tryAgainVoice.play();
       this.game.state.start('menu');
       this.music.pause();
+      this.score=0;
     },
+
 
     onInputDown: function (bullet) {
       this.tryAgainVoice.play();
@@ -222,3 +378,32 @@ generateEnemmy : function() {
   window['space-shooter'].Game = Game;
 
 }());
+
+/*
+//  When a bullet hits an alien we kill them both
+    //this.enemies.kill();
+    //this.enemies.kill();*/
+
+    //this.bullet.kill();
+    //this.enemmie.kill();
+    //  Increase the score
+    //this.score += 5;
+    //this.scoreText.content = this.scoreString + this.score;*/
+/*
+    //  And create an explosion :)
+    var explosion = explosions.getFirstDead();
+    explosion.reset(alien.body.x, alien.body.y);
+    explosion.play('kaboom', 30, false, true);*/
+
+    /*if (aliens.countLiving() == 0)
+    {
+        score += 1000;
+        scoreText.content = scoreString + score;
+
+        enemyBullets.callAll('kill',this);
+        stateText.content = " You Won, \n Click to restart";
+        stateText.visible = true;
+
+        //the "click to restart" handler
+        game.input.onTap.addOnce(restart,this);
+    }*/

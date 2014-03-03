@@ -13,4 +13,5 @@ window.onload = function () {
   game.state.add('score', ns.Score);
 
   game.state.start('boot');
+
 };
