@@ -17,7 +17,7 @@
     this.scoreString = '';
     this.explosion = null;
     this.explosions;
-    this.nEnemies=1;
+    this.nEnemies=25;
 
     this.bulletblue=null;
     this.bulletgreen=null;
@@ -34,8 +34,11 @@
     this.enemyyellow=null;
     this.enemyblue=null;
 
-    this.lastTime = 0;
-    this.typebullet = 3;
+    this.lastTimeGreen = 0;
+    this.lastTimeBlue = 0;
+    this.lastTimeYellow = 0;
+    this.lastTimeRed = 0;
+    this.typebullet = 2;
   }
 
 
@@ -136,8 +139,8 @@
     //Bucle que crea el grupo de enemigos
     for (var i = 0; i < this.nEnemies; i++)
     {
-        var b = this.enemyred.create(0, 0, 'enemyred', 24, true);
-        b.name = 'enemyred';
+        var b = this.enemyred.create(0, 0, 'enemygreen', 24, true);
+        b.name = 'enemygreen';
         b.exists = false;
         b.visible = false;
         b.anchor.setTo(0.5, 0.5);
@@ -238,10 +241,38 @@
 
       this.createBullets(this.bullet,this.typebullet);
 
-      /*if (this.game.time.now > this.lastTime) {
-        var v = this.enemyred.create(Math.random()*400, 0, 'enemyred', 24, true);
-        this.lastTime = this.game.time.now + 3000
-      }*/
+      if (this.game.time.now > this.lastTimeRed) {
+        var v = this.enemyred.create(Math.random()*600, -100, 'enemyred', 24, true);
+        v.name = 'enemyred';
+        v.body.velocity.y = +600;
+        v.animations.add('fly');
+        v.animations.play('fly', 24, true);
+        this.lastTimeRed = this.game.time.now + 9000
+      }
+      if (this.game.time.now > this.lastTimeBlue) {
+        var v = this.enemyblue.create(Math.random()*600, -100, 'enemyblue', 24, true);
+        v.name = 'enemyblue';
+        v.body.velocity.y = +400;
+        v.animations.add('fly');
+        v.animations.play('fly', 24, true);
+        this.lastTimeBlue = this.game.time.now + 6000
+      }
+      if (this.game.time.now > this.lastTimeGreen) {
+        var v = this.enemygreen.create(Math.random()*600, -100, 'enemygreen', 24, true);
+        v.name = 'enemygreen';
+        v.body.velocity.y = +300;
+        v.animations.add('fly');
+        v.animations.play('fly', 24, true);
+        this.lastTimeGreen = this.game.time.now + 1500
+      }
+      if (this.game.time.now > this.lastTimeYellow) {
+        var v = this.enemygreen.create(Math.random()*600, -100, 'enemyyellow', 24, true);
+        v.name = 'enemyyellow';
+        v.body.velocity.y = +500;
+        v.animations.add('fly');
+        v.animations.play('fly', 24, true);
+        this.lastTimeYellow = this.game.time.now + 3000
+      }
 
       /*
       var keypressed = false;
@@ -296,7 +327,7 @@
         this.enemy.body.velocity.x = -200;
       }*/
 
-      this.generateenemy();
+      //this.generateenemy();
 
       this.fireBullet();
       //collision
@@ -432,7 +463,7 @@ resetBullet : function (bullet) {
     bullet.kill();
 },  
 
-generateenemy : function() {
+/*generateenemy : function() {
 
     if (this.game.time.now > this.enemyTime )
     {
@@ -448,7 +479,7 @@ generateenemy : function() {
         }
     }
 
-  },
+  },*/
 
 
   resetGame: function () {

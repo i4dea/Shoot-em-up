@@ -24,8 +24,8 @@
       this.load.image('particle', 'assets/particle-blue.PNG');
       this.load.spritesheet("enemyred", "assets/enemmy-red-24.PNG", 80, 80);
       this.load.spritesheet("enemygreen", "assets/enemmy-green-24.PNG", 80, 80);
-      //this.load.spritesheet("enemyyellow", "assets/enemmy-yellow-24.PNG", 80, 80);
-      //this.load.spritesheet("enemyblue", "assets/enemmy-blue-24.PNG", 80, 80);
+      this.load.spritesheet("enemyyellow", "assets/enemmy-yellow-24.PNG", 70, 70);
+      this.load.spritesheet("enemyblue", "assets/enemmy-blue-24.PNG", 110, 110);
       this.load.spritesheet("kaboom", "assets/explosion.PNG", 350, 350);
       this.load.audio('musicLoop', 'assets/musicLoop.mp3');
       this.load.audio('tryAgain', 'assets/voice_tryagain.mp3');
