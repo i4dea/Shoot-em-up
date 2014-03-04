@@ -23,6 +23,7 @@
     this.bulletgreen=null;
     this.bulletorange=null;
 
+    this.energyRing = null;
 
     this.powerups=null;
     this.powerupblue=null;
@@ -80,6 +81,7 @@
     this.bulletgreen = this.game.add.group();
     this.bulletorange = this.game.add.group();
 
+////////////////AQUIIIIIIIIIII////////////////
     this.bullets.add(this.bulletblue._container);
     this.bullets.add(this.bulletgreen._container);
     this.bullets.add(this.bulletorange._container);
@@ -125,6 +127,10 @@
     this.enemy.body.velocity.y = +100;
     this.enemy.anchor.setTo(0.5, 0.75);
     this.enemy.name = 'enemy';*/
+
+    //Crea grupo energyRing
+    this.energyRing = this.game.add.group();
+    this.energyRing.createMultiple(1000, 'energyRing');
 
         //  An explosion pool
     this.explosions = this.game.add.group();
@@ -213,19 +219,22 @@
             {
                 bullet = this.bulletblue.create(0, 0, 'bulletblue');
                 bullet.name = 'bulletblue';
+                console.log('bulletblue');
             }
           else if(typebullet===2)
             {
               bullet = this.bulletgreen.create(0, 0, 'bulletgreen');
               bullet.name = 'bulletgreen';
+              console.log('bulletgreen');
             }
           else if(typebullet===3)
             {
               bullet = this.bulletorange.create(0, 0, 'bulletorange');
               bullet.name = 'bulletorange';
+              console.log('bulletorange');
             }
         else  {
-          console.log("Error: createBullets --- wrong typebullet")
+          console.log("Error: createBullets --- wrong typebullet" + typebullet)
         }
             bullet.exists = false;
             bullet.visible = false;
@@ -371,17 +380,17 @@
       } , null, this);
 
       this.game.physics.overlap(this.powerups, this.bullets, function (powerup, bullet) {
-        if(powerup.name=='pwpblue')
+        if(powerup.name==='pwpblue')
         {
           this.typebullet=1;
           console.log(this.typebullet);
         }
-        else if(powerup.name=='pwpgreen')
+        else if(powerup.name==='pwpgreen')
         {
           this.typebullet=2;
           console.log(this.typebullet);
         }
-        else if(powerup.name=='pwporange')
+        else if(powerup.name==='pwporange')
         {
           this.typebullet=3;
           console.log(this.typebullet);
@@ -395,7 +404,7 @@
 
   fireBullet : function() {
     //disparo azul
-    if(this.typebullet == 1)
+    if(this.typebullet === 1)
     {
         if (this.game.time.now > this.bulletTime && (this.bulletCounter % 3) != 2)
         {
@@ -416,7 +425,7 @@
         }
     }
 
-    if(this.typebullet == 2)
+    if(this.typebullet === 2)
     {
         if (this.game.time.now > this.bulletTime )
         {
@@ -443,7 +452,7 @@
         }
     }
 
-    if(this.typebullet == 3)
+    if(this.typebullet === 3)
     {
         if (this.game.time.now > this.bulletTime )
         {
@@ -510,7 +519,8 @@ resetBullet : function (bullet) {
 
   },*/
 
-
+  //energyRing: function () {
+  //}
   resetGame: function () {
       this.tryAgainVoice.play();
       this.game.state.start('menu');

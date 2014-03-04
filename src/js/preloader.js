@@ -20,6 +20,7 @@
       this.load.image('bulletblue', 'assets/bullet-blue.PNG');
       this.load.image('bulletgreen', 'assets/lazer-green.PNG');
       this.load.image('bulletorange', 'assets/bullet-orange.PNG');
+      this.load.image('energiRing', 'assets/energy-ring.PNG');
       this.load.image('starfield', 'assets/fondo-todo-grande.PNG');
       this.load.image('particle', 'assets/particle-blue.PNG');
       this.load.spritesheet("enemyred", "assets/enemmy-red-24.PNG", 80, 80);
