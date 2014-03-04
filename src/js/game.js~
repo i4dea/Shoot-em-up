@@ -28,7 +28,6 @@
     this.powerupblue=null;
     this.powerupgreen=null;
     this.poweruporange=null;
-    this.lastPwpTime = 0;
 
     this.enemyred=null;
     this.enemygreen=null;
@@ -39,7 +38,7 @@
     this.lastTimeBlue = 0;
     this.lastTimeYellow = 0;
     this.lastTimeRed = 0;
-    this.typebullet = 3;
+    this.typebullet = 1;
   }
 
 
@@ -138,7 +137,7 @@
 
       
     //Bucle que crea el grupo de enemigos
-    /*for (var i = 0; i < this.nEnemies; i++)
+    for (var i = 0; i < this.nEnemies; i++)
     {
         var b = this.enemyred.create(0, 0, 'enemygreen', 24, true);
         b.name = 'enemygreen';
@@ -146,10 +145,9 @@
         b.visible = false;
         b.anchor.setTo(0.5, 0.5);
         b.events.onOutOfBounds.add(function (enemy) {
-        this.resetGame();
         enemy.kill();
       }, this);
-    }*/
+    }
 
     },
 
@@ -164,7 +162,7 @@
     var pwp;
     var randNumber = Math.random();
     // Of course, the pwps created will belong to their respective groups
-    if (randNumber < 0.33 && this.game.time.now > this.lastPwpTime)
+    if (randNumber < 0.33)
     {
         pwp = this.powerupgreen.create(360 + Math.random() * 200, 0, 'pwpblue');
         pwp.name = 'pwpblue';
@@ -175,9 +173,8 @@
         pwp.events.onOutOfBounds.add(function (pwp) {
         pwp.kill();
       }, this);
-        this.lastPwpTime = this.game.time.now + 5000;
     }
-    else if (randNumber > 0.67 && this.game.time.now > this.lastPwpTime)
+    else if (randNumber > 0.67)
     {
         pwp = this.powerupblue.create(360 + Math.random() * 200, 0, 'pwpgreen');
         pwp.name = 'pwpgreen';
@@ -188,9 +185,8 @@
         pwp.events.onOutOfBounds.add(function (pwp) {
         pwp.kill();
       }, this);
-        this.lastPwpTime = this.game.time.now + 5000;
     }
-    else if ( this.game.time.now > this.lastPwpTime)
+    else
     {
         pwp = this.powerupblue.create(360 + Math.random() * 200, 0, 'pwporange');
         pwp.name = 'pwporange';
@@ -201,7 +197,6 @@
         pwp.events.onOutOfBounds.add(function (pwp) {
         pwp.kill();
       }, this);
-        this.lastPwpTime = this.game.time.now + 5000;
     }
     
 },
@@ -209,24 +204,21 @@
     createBullets: function(bullet, typebullet) {
       for (var i = 0; i < 10; i++)
         {
-          if(typebullet===1)
+          if(typebullet==1)
             {
                 bullet = this.bulletblue.create(0, 0, 'bulletblue');
                 bullet.name = 'bulletblue';
             }
-          else if(typebullet===2)
+          if(typebullet==2)
             {
               bullet = this.bulletgreen.create(0, 0, 'bulletgreen');
               bullet.name = 'bulletgreen';
             }
-          else if(typebullet===3)
+          if(typebullet==3)
             {
               bullet = this.bulletorange.create(0, 0, 'bulletorange');
               bullet.name = 'bulletorange';
             }
-        else  {
-          console.log("Error: createBullets --- wrong typebullet")
-        }
             bullet.exists = false;
             bullet.visible = false;
             bullet.anchor.setTo(0.5, 0.5);
@@ -248,59 +240,38 @@
       y = this.input.position.y;
 
       this.createBullets(this.bullet,this.typebullet);
-      this.createpwp();
 
       if (this.game.time.now > this.lastTimeRed) {
-        var red = this.enemyred.create(Math.random()*600, -100, 'enemyred', 24, true);
-        red.name = 'enemyred';
-        red.body.velocity.y = +600;
-        red.animations.add('fly');
-        red.animations.play('fly', 24, true);
-        this.lastTimeRed = this.game.time.now + 9000;
-        red.events.onOutOfBounds.add(function () {
-          if (red.y > this.player.y){
-            this.resetGame();
-          }
-        }, this);
+        var v = this.enemyred.create(Math.random()*600, -100, 'enemyred', 24, true);
+        v.name = 'enemyred';
+        v.body.velocity.y = +600;
+        v.animations.add('fly');
+        v.animations.play('fly', 24, true);
+        this.lastTimeRed = this.game.time.now + 9000
       }
       if (this.game.time.now > this.lastTimeBlue) {
-        var blue = this.enemyblue.create(Math.random()*600, -100, 'enemyblue', 24, true);
-        blue.name = 'enemyblue';
-        blue.body.velocity.y = +400;
-        blue.animations.add('fly');
-        blue.animations.play('fly', 24, true);
-        this.lastTimeBlue = this.game.time.now + 6000;
-        blue.events.onOutOfBounds.add(function () {
-          if (blue.y > this.player.y){
-            this.resetGame();
-          }
-        }, this);
+        var v = this.enemyblue.create(Math.random()*600, -100, 'enemyblue', 24, true);
+        v.name = 'enemyblue';
+        v.body.velocity.y = +400;
+        v.animations.add('fly');
+        v.animations.play('fly', 24, true);
+        this.lastTimeBlue = this.game.time.now + 6000
       }
-      if (this.game.time.now > this.lastTimeGreegreen) {
-        var green = this.enemygreen.create(Math.random()*600, -100, 'enemygreen', 24, true);
-        green.name = 'enemygreen';
-        green.body.velocity.y = +300;
-        green.animations.add('fly');
-        green.animations.play('fly', 24, true);
-        this.lastTimeGreen = this.game.time.now + 1500;
-        green.events.onOutOfBounds.add(function () {
-          if (green.y > this.player.y){
-            this.resetGame();
-          }
-        }, this);
+      if (this.game.time.now > this.lastTimeGreen) {
+        var v = this.enemygreen.create(Math.random()*600, -100, 'enemygreen', 24, true);
+        v.name = 'enemygreen';
+        v.body.velocity.y = +300;
+        v.animations.add('fly');
+        v.animations.play('fly', 24, true);
+        this.lastTimeGreen = this.game.time.now + 1500
       }
       if (this.game.time.now > this.lastTimeYellow) {
-        var yellow = this.enemygreen.create(Math.random()*600, -100, 'enemyyellow', 24, true);
-        yellow.name = 'enemyyellow';
-        yellow.body.velocity.y = +500;
-        yellow.animations.add('fly');
-        yellow.animations.play('fly', 24, true);
-        this.lastTimeYellow = this.game.time.now + 3000;
-        yellow.events.onOutOfBounds.add(function () {
-          if (yellow.y > this.player.y){
-            this.resetGame();
-          }
-        }, this);
+        var v = this.enemygreen.create(Math.random()*600, -100, 'enemyyellow', 24, true);
+        v.name = 'enemyyellow';
+        v.body.velocity.y = +500;
+        v.animations.add('fly');
+        v.animations.play('fly', 24, true);
+        this.lastTimeYellow = this.game.time.now + 3000
       }
 
       /*
